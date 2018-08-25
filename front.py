@@ -323,4 +323,6 @@ def a(m):
         bot.send_message(m.chat.id, 'Что-то пошло не так. Попробуй заново')
 
 
+fc_sender.start()
+
 bot.polling(interval=0.5, none_stop=False, timeout=120)
