@@ -1,21 +1,30 @@
-import time
+
 import telebot
+from time import *
 from back.tools import date, report, DBConnection, bot, get, set_
 from config.settings import database_url
 
 
 def poll():
     while True:
-        current_time = time.strftime('%H:%M')
+        current_time = strftime(
+            '%H:%M',
+            localtime(
+                int(time()) + 3*3600
+            )
+        )
+
+        # current_time = strftime('%H:%M')
         report(current_time=current_time)
-        mins = int(time.strftime('%M')) + 60 * int(time.strftime('%H'))
+        mins = int(current_time[:2]) \
+            + 60 * int(current_time[-2:])
 
         if 21 * 60 + 30 < mins < 22 * 60 + 30:
             report(send_forecast=True)
             report(current_date=date(0))
             send_forecast(select_forecast(date(0)))
 
-        time.sleep(10)
+        sleep(10)
 
 
 def select_forecast(date_):
@@ -37,7 +46,8 @@ def send_forecast(forecast_id):
         return
 
     forecast_photo = get('forecasts', 'photo', forecast_id)
-    forecast_text = f'<b>Прогноз на {date(0)}</b>\n' + get('forecasts', 'text', forecast_id)
+    forecast_text = f'<b>Прогноз на {date(0)}</b>\n' + \
+                    get('forecasts', 'text', forecast_id)
 
     with DBConnection(database_url) as con:
         curs = con.cursor()
@@ -61,7 +71,10 @@ def send_forecast(forecast_id):
 
             with DBConnection(database_url) as con:
                 curs = con.cursor()
-                curs.execute('update users set forecasts_left = forecasts_left-1 where id = %s', (chat_id,))
+                curs.execute(
+                    'update users '
+                    'set forecasts_left = forecasts_left-1 '
+                    'where id = %s', (chat_id,))
 
             sent_amount += 1
 
