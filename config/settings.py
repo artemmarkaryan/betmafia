@@ -1,20 +1,17 @@
 import os
 
-token = '570570151:AAE-cbnktQk1lTrQy14Tu-MQRAPg785Ky8w'
+token = ''
 
 database_url = os.environ['DATABASE_URL']
 
 
-test_link = 'http://telegra.ph/fffgfg-05-09'
+test_link = ''
 
 payment_link = 'http://www.free-kassa.ru/' \
                'merchant/cash.php?'
 
-shop_id = '74018'
+shop_id = ''
 
-secret = 'r1b1l2ba'
+secret = ''
 
-admins = [
-    # 296286381,
-    107570430
-]
+admins = []
